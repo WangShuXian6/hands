@@ -1,5 +1,13 @@
 #
 
+## 效果预览
+手掌与摄像头举例需要保持在20cm以上，因为需要显示完整的手掌。
+左右移动手掌可控制轮播图展示前一张或后一张。
+
+![效果预览](doc/手势识别.png)
+
+## 模型文件
+需要与@mediapipe\hands版本一致，当前为 0.4.1675469240 
 >将 `node_modules\@mediapipe\hands` 的文件复制到 `public\mediapipe\hands`
 
 ## 启用https
