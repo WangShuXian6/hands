@@ -9,7 +9,12 @@ interface HandLandmark {
   z: number;
 }
 
-export const HandGestureRecognition = () => {
+interface Props {
+  onPrevious: () => void;
+  onNext: () => void;
+}
+
+export const HandGestureRecognition = ({onPrevious, onNext }: Props) => {
   const videoRef = useRef<HTMLVideoElement | null>(null); // 用于视频流
   const canvasRef = useRef<HTMLCanvasElement | null>(null); // 用于绘制手部关键点
 
@@ -34,20 +39,22 @@ export const HandGestureRecognition = () => {
     if (Math.abs(currentY - prevY) > threshold) {
       // 如果Y轴变化大于阈值，判断为上下移动
       if (currentY < prevY) {
-        console.log('Move Up')
+        console.log("Move Up");
         setGesture("Move Up");
       } else {
-        console.log('Move Down')
+        console.log("Move Down");
         setGesture("Move Down");
       }
     } else if (Math.abs(currentX - prevX) > threshold) {
       // 如果X轴变化大于阈值，判断为左右移动
       if (currentX < prevX) {
-        console.log('Move Left')
+        console.log("Move Left");
         setGesture("Move Left");
+        onPrevious()
       } else {
-        console.log('Move Right')
+        console.log("Move Right");
         setGesture("Move Right");
+        onNext()
       }
     }
 
@@ -100,7 +107,7 @@ export const HandGestureRecognition = () => {
           };
 
           detectGesture(currentCoordinates); // 检测手势
-          
+
           // 绘制手部关键点
           landmarks.forEach((landmark: HandLandmark) => {
             const x = landmark.x * canvasElement.width; // 标志点X坐标
@@ -142,7 +149,15 @@ export const HandGestureRecognition = () => {
         height="480"
         style={{ position: "absolute", top: 0, left: 0 }}
       />
-      <div style={{ position: "absolute", top: 10, left: 10, color: "white", fontSize: "20px" }}>
+      <div
+        style={{
+          position: "absolute",
+          top: 10,
+          left: 10,
+          color: "white",
+          fontSize: "20px",
+        }}
+      >
         Gesture: {gesture}
       </div>
     </div>
